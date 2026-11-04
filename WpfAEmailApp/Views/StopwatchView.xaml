@@ -1,0 +1,48 @@
+<UserControl x:Class="WpfAEmailApp.Views.StopwatchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:WpfAEmailApp.ViewModels">
+
+    <UserControl.DataContext>
+        <vm:StopwatchViewModel />
+    </UserControl.DataContext>
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <!-- Cadran analogique du chronomètre corrigé -->
+            <Grid Width="220" Height="220" Margin="0,0,0,20">
+                <!-- 1. Cercle extérieur de l'horloge -->
+                <Ellipse Width="220" Height="220" Stroke="Black" StrokeThickness="3" Fill="White"/>
+
+                <!-- 2. Aiguille des minutes -->
+                <Line X1="110" Y1="110" X2="110" Y2="50" Stroke="Blue" StrokeThickness="3">
+                    <Line.LayoutTransform>
+                        <RotateTransform Angle="{Binding MinuteAngle}" CenterX="110" CenterY="110"/>
+                    </Line.LayoutTransform>
+                </Line>
+
+                <!-- 3. Aiguille des secondes -->
+                <Line X1="110" Y1="110" X2="110" Y2="30" Stroke="Red" StrokeThickness="2">
+                    <Line.LayoutTransform>
+                        <RotateTransform Angle="{Binding SecondAngle}" CenterX="110" CenterY="110"/>
+                    </Line.LayoutTransform>
+                </Line>
+
+                <!-- 4. Centre du cadran (placé en dernier pour s'afficher par-dessus les aiguilles) -->
+                <Ellipse Width="10" Height="10" Fill="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- Affichage textuel des secondes écoulées -->
+            <TextBlock Text="{Binding SecondsElapsed, StringFormat='{}Secondes écoulées : {0}s'}" 
+                       HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+
+            <!-- Boutons de contrôle gérés par RelayCommand -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Démarrer" Command="{Binding StartCommand}" Width="90" Height="35" Margin="5"/>
+                <Button Content="Arrêter" Command="{Binding StopCommand}" Width="90" Height="35" Margin="5"/>
+                <Button Content="Réinitialiser" Command="{Binding ResetCommand}" Width="90" Height="35" Margin="5"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,64 @@
+<UserControl x:Class="WpfAEmailApp.Views.TodoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:WpfAEmailApp.ViewModels"
+             xmlns:conv="clr-namespace:WpfAEmailApp.Converters">
+    
+    <UserControl.DataContext>
+        <vm:TodoViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <conv:TaskStrikethroughConverter x:Key="TaskColorConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Saisie et bouton Ajouter -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding NewTaskTitle, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="0,0,10,0" Padding="5" Height="30" VerticalContentAlignment="Center"/>
+            <Button Grid.Column="1" Content="Ajouter" Command="{Binding AddTaskCommand}" 
+                    Width="80" Height="30" />
+        </Grid>
+
+        <!-- ListBox des tâches -->
+        <ListBox Grid.Row="1" ItemsSource="{Binding Tasks}" SelectedItem="{Binding SelectedTask}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <CheckBox IsChecked="{Binding IsDone, Mode=TwoWay}" VerticalAlignment="Center"/>
+                        <TextBox Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 Margin="10,0,0,0" BorderThickness="0" Background="Transparent"
+                                 Foreground="{Binding IsDone, Converter={StaticResource TaskColorConverter}}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsDone}" Value="True">
+                                            <Setter Property="TextDecorations" Value="Strikethrough" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Boutons de gestion -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Supprimer" Command="{Binding DeleteTaskCommand}" Width="100" Height="30" Margin="0,0,10,0" />
+            <Button Content="Enregistrer" Command="{Binding SaveTasksCommand}" Width="100" Height="30" />
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,56 @@
+<UserControl x:Class="WpfAEmailApp.Views.EmailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:WpfAEmailApp.ViewModels">
+
+	<UserControl.DataContext>
+		<vm:EmailViewModel />
+	</UserControl.DataContext>
+
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="150"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<!-- Fournisseur -->
+		<TextBlock Text="Fournisseur :" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,10"/>
+		<ComboBox Grid.Row="0" Grid.Column="1" Height="25" Margin="0,0,0,10" SelectedValue="{Binding SelectedProvider}">
+			<ComboBoxItem Content="Gmail"/>
+			<ComboBoxItem Content="Outlook"/>
+		</ComboBox>
+
+		<!-- Votre e-mail -->
+		<TextBlock Text="Votre e-mail :" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,10"/>
+		<TextBox Text="{Binding SenderEmail, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Height="25" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+		<!-- Clé d'application -->
+		<TextBlock Text="Clé d'application :" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,10"/>
+		<TextBox Text="{Binding AppPassword, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Height="25" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+		<!-- Destinataire -->
+		<TextBlock Text="Destinataire :" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,10"/>
+		<TextBox Text="{Binding RecipientEmail, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Height="25" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+		<!-- Objet du message -->
+		<TextBlock Text="Objet du message :" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,10"/>
+		<TextBox Text="{Binding Subject, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Height="25" VerticalContentAlignment="Center" Margin="0,0,0,10"/>
+
+		<!-- Message -->
+		<TextBlock Text="Message :" Grid.Row="5" Grid.Column="0" VerticalAlignment="Top" Margin="0,5,0,0"/>
+		<TextBox Text="{Binding Body, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" AcceptsReturn="True" TextWrapping="Wrap" Margin="0,0,0,10"/>
+
+		<!-- Bouton Envoyer -->
+		<Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Envoyer le mail" Command="{Binding SendEmailCommand}" Height="35" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+	</Grid>
+</UserControl>
